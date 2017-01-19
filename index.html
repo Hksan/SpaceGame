@@ -8,7 +8,67 @@
 </head>
 <body>
 
+    <div id="background">
 
+    </div>
+
+    <script>
+
+        var height = document.documentElement.clientHeight;
+        var width = document.documentElement.clientWidth;
+
+        var background = document.getElementById("background");
+        background.style.height = height-10+"px";
+
+
+        for (var i = 0; i < 100; i++){
+
+            // Div inner
+                var divElement = document.createElement("div");
+                divElement.style.position = "absolute";
+                divElement.style.borderRadius = "20px";
+
+                var array = ["peachpuff", "white", "aliceblue", "floralwhite", "azure", "lightblue", "lightsteelblue"];
+                divElement.style.backgroundColor = array[Math.round((Math.random()*6))];
+
+                // Height & width
+                var rand = Math.random();
+                divElement.style.width = 2* rand + "px";
+                divElement.style.height = 2* rand + "px";
+
+                // Top and left
+                var rand2 = Math.random();
+                var rand3 = Math.random();
+
+                divElement.style.left = (width-50) * rand2 + "px";
+                divElement.style.top = (height-50) * rand3 + "px";
+
+                background.appendChild(divElement);
+
+            // Div outer
+                var divElement2 = document.createElement("div");
+                divElement2.style.position = "absolute";
+                divElement2.style.backgroundColor = "white";
+                divElement2.style.borderRadius = "20px";
+
+                // Height & width
+                divElement2.style.width = 2* rand + 2 + "px";
+                divElement2.style.height = 2* rand + 2 + "px";
+
+                // Top and left
+                divElement2.style.left = (width-50) * rand2 -1 + "px";
+                divElement2.style.top = (height-50) * rand3 -1 + "px";
+
+                // Animation
+                divElement2.style.animationDuration = "4s";
+                divElement2.style.animationName = "example";
+                divElement2.style.animationIterationCount = "infinite";
+                divElement2.style.animationDelay = Math.random()*10 + "s";
+
+                background.appendChild(divElement2);
+        }
+
+    </script>
 
 </body>
 </html>
