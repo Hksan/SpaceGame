@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample FirebaseUI App</title>
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app. *
+       ***************************************************************************************** -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDZqawcZKUJa_iyXEw03eKAbZuMQSOGMEs",
+            authDomain: "testfirebase-44c5a.firebaseapp.com",
+            databaseURL: "https://testfirebase-44c5a.firebaseio.com",
+            storageBucket: "testfirebase-44c5a.appspot.com",
+            messagingSenderId: "477228321194"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript">
+        var MyBase = firebase.database();
+        var users = MyBase.ref("users");
+        initApp = function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var displayName = user.displayName;
+                    var email = user.email;
+                    var emailVerified = user.emailVerified;
+                    var photoURL = user.photoURL;
+                    var uid = user.uid;
+                    var providerData = user.providerData;
+                    user.getToken().then(function(accessToken) {
+                        document.getElementById('sign-in-status').textContent = 'Signed in';
+                        document.getElementById('sign-in').textContent = 'Sign out';
+                        document.getElementById('bilde').innerHTML = `<img src="${photoURL}" alt="error">`;
+                        var x = Math.floor(Math.random()*400);
+                        var y = Math.floor(Math.random()*400);
+                        var person = {
+                            id: uid,
+                            bilde: photoURL,
+                            xpos: x,
+                            ypos: y,
+                            speed: 0,
+                            rotato: 0
+                        };
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);
+                        document.getElementById('account-details').textContent = JSON.stringify({
+                            displayName: displayName,
+                            email: email,
+                            emailVerified: emailVerified,
+                            photoURL: photoURL,
+                            uid: uid,
+                            accessToken: accessToken,
+                            providerData: providerData
+
+                        }, null, '  ');
+                    });
+
+
+
+                } else {
+                    // User is signed out.
+                    document.getElementById('sign-in-status').textContent = 'Signed out';
+                    document.getElementById('sign-in').textContent = 'Sign in';
+                    document.getElementById('account-details').textContent = 'null';
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        };
+
+        window.addEventListener('load', function() {
+            initApp()
+        });
+    </script>
+</head>
+<body>
+<h1>Welcome to My Awesome App</h1>
+<div id="sign-in-status"></div>
+<div id="sign-in"></div>
+<div id="account-details"></div>
+<div id="bilde"></div>
+
+
+
+</body>
+</html>
