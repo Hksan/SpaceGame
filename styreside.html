@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation-flex.css">
+    <style>
+        body {
+        background-color: black;
+        margin-top: 20px;
+        min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="row">
+        <div class="small-12 columns" id="up">
+            <button class="button large expanded success" id="btnUp">UP</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-6 columns" id="left">
+            <button class="button large expanded" id="btnLeft">LEFT</button>
+        </div>
+        <div class="small-6 columns" id="right">
+            <button class="button large expanded" id="btnRight">RIGHT</button>
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDZqawcZKUJa_iyXEw03eKAbZuMQSOGMEs",
+            authDomain: "testfirebase-44c5a.firebaseapp.com",
+            databaseURL: "https://testfirebase-44c5a.firebaseio.com",
+            storageBucket: "testfirebase-44c5a.appspot.com",
+            messagingSenderId: "477228321194"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        var MyBase = firebase.database();
+
+        var btnLeft = document.getElementById("btnleft");
+        var btnUp = document.getElementById("btnUp");
+        var btnRight = document.getElementById("btnRigt");
+        var left = document.getElementById("left");
+        var right = document.getElementById("right");
+        var up = document.getElementById("up");
+        userid = "";
+
+        var force = 0.25;
+        var maxSpeed = 4.5;
+
+
+        //meme
+        var test = {
+            rotate: 0,
+            roateA: 0,
+            speed: 0
+        };
+
+
+
+        left.onclick = function () {
+            /*test.rotate += 5;
+            console.log(test.rotate);
+            console.log(test);
+            console.log(test.speed);
+            ref.set(test);*/
+
+        };
+        right.onclick = function toright() {
+            /*test.roateA += 0.25;
+            test.rotate -= 5;
+            console.log(test.rotate);
+            console.log(test);
+            console.log(test.speed);
+            ref.set(test);*/
+
+        };
+        up.onclick = function () {
+            if(test.speed < maxSpeed) {
+                //initApp = function() {
+                    firebase.auth().onAuthStateChanged(function(user) {
+                        if (user) {
+                            // User is signed in.
+                            var displayName = user.displayName;
+                            var email = user.email;
+                            var emailVerified = user.emailVerified;
+                            var photoURL = user.photoURL;
+                            var uid = user.uid;
+                            var providerData = user.providerData;
+                            userid = uid;
+                            console.log("signin");
+                            user.getToken().then(function(accessToken) {
+                                console.log("Database");
+
+                                //koden her
+
+                                var person = {
+                                 id: uid,
+                                 bilde: photoURL,
+                                 xpos: x,
+                                 ypos: y,
+                                 speed: 1,
+                                 rotatk: 3
+                                 };
+                                 var ref = MyBase.ref("users/" + uid);
+                                 ref.set(person);
+                                 //users.push(person);*/
+
+
+                            });
+
+
+
+                        } else {
+                            // User is signed out.
+                            //document.getElementById('sign-in-status').textContent = 'Signed out';
+                            //document.getElementById('sign-in').textContent = 'Sign in';
+                            //document.getElementById('account-details').textContent = 'null';
+                            console.log("signout")
+                        }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                //};
+                console.log("meme");
+                /*test.speed += force;
+                console.log(test.rotate);
+                console.log(test);
+                console.log(test.speed);
+                ref.set(test);*/
+
+            }
+        };
+        //meme
+        /*initApp = function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var displayName = user.displayName;
+                    var email = user.email;
+                    var emailVerified = user.emailVerified;
+                    var photoURL = user.photoURL;
+                    var uid = user.uid;
+                    var providerData = user.providerData;
+                    userid = uid;
+                    user.getToken().then(function(accessToken) {
+
+
+                        //koden her
+
+                        /*var person = {
+                            id: uid,
+                            bilde: photoURL,
+                            xpos: x,
+                            ypos: y,
+                            speed: 0,
+                            rotato: 0
+                        };
+                        /*var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);
+
+
+                    });
+
+
+
+                } else {
+                    // User is signed out.
+                    document.getElementById('sign-in-status').textContent = 'Signed out';
+                    document.getElementById('sign-in').textContent = 'Sign in';
+                    document.getElementById('account-details').textContent = 'null';
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        };*/
+    </script>
+    <script>
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
