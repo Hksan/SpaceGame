@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample FirebaseUI App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.0/css/foundation-flex.css">
+    <style>
+        /*body {
+            background-color: black;
+            margin-top: 20px;
+            min-height: 100vh;
+        }*/
+    </style>
+    <!-- *******************************************************************************************
+       * TODO(DEVELOPER): Paste the initialization snippet from:
+       * Firebase Console > Overview > Add Firebase to your web app. *
+       ***************************************************************************************** -->
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDZqawcZKUJa_iyXEw03eKAbZuMQSOGMEs",
+            authDomain: "testfirebase-44c5a.firebaseapp.com",
+            databaseURL: "https://testfirebase-44c5a.firebaseio.com",
+            storageBucket: "testfirebase-44c5a.appspot.com",
+            messagingSenderId: "477228321194"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript">
+        var person = {
+            id: "",
+            bilde: "",
+            xpos: 0,
+            ypos: 0,
+            up: 0,
+            left: 0,
+            right: 0,
+            roateA: 0,
+            rotate: 0,
+            speed: 0,
+            x: 0,
+            y: 0
+
+        };
+        var MyBase = firebase.database();
+        var users = MyBase.ref("users");
+        initApp = function() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var photoURL = user.photoURL;
+                    var uid = user.uid;
+                    user.getToken().then(function(accessToken) {
+                        document.getElementById('bilde').innerHTML = `<img src="${photoURL}" alt="error">`;
+                        var x = Math.floor(Math.random()*400);
+                        var y = Math.floor(Math.random()*400);
+                        person = {
+                            id: uid,
+                            bilde: photoURL,
+                            x: 0,
+                            y: 0,
+                            speed: 0,
+                            rotate: 0,
+                            roateA: 0,
+                            up: 0,
+                            left: 0,
+                            right: 0
+                        };
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                    });
+
+
+
+                } else {
+                    // User is signed out.
+                    console.log("signedout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        };
+
+        window.addEventListener('load', function() {
+            initApp()
+        });
+    </script>
+</head>
+<body>
+    <h1>Welcome to My Awesome App</h1>
+    <div id="sign-in-status"></div>
+    <div id="sign-in"></div>
+    <div id="account-details"></div>
+    <div id="bilde"></div>
+
+    <div class="row">
+        <div class="small-12 columns" id="up">
+            <button class="button large expanded success" id="btnUp">UP</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="small-6 columns" id="left">
+            <button class="button large expanded" id="btnLeft">LEFT</button>
+        </div>
+        <div class="small-6 columns" id="right">
+            <button class="button large expanded" id="btnRight">RIGHT</button>
+        </div>
+    </div>
+    <script>//styreside test
+
+        var btnLeft = document.getElementById("btnleft");
+        var btnUp = document.getElementById("btnUp");
+        var btnRight = document.getElementById("btnRigt");
+        var left = document.getElementById("left");
+        var right = document.getElementById("right");
+        var up = document.getElementById("up");
+
+        function goup() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.up = 1;
+                        player.up = 1;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("meme");
+        }
+
+        function goleft() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.left = 1;
+                        player.left = 1;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("meme");
+        }
+
+        function goright() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.right = 1;
+                        player.right = 1;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("meme");
+        }
+
+        function nogoleft() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.left = 0;
+                        player.left = 0;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("nomeme");
+        }
+
+        function nogoright() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.right = 0;
+                        player.right = 0;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("nomeme");
+        }
+
+        function nogoup() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    console.log("signin");
+                    user.getToken().then(function(accessToken) {
+                        console.log("Database");
+                        person.up = 0;
+                        player.up = 0;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            console.log("nomeme");
+        }
+
+        right.onmousedown = goleft;
+        left.onmousedown = goright;
+        up.onmousedown = goup;
+        right.onmouseup = nogoleft;
+        left.onmouseup = nogoright;
+        up.onmouseup = nogoup;
+
+
+        var player = {
+            x: 200,
+            y: 200,
+            speed: 0,
+            rotate: 0,
+            roateA:0,
+            up: 0,
+            left: 0,
+            right: 0
+        };
+        console.log(screen.width);
+        console.log(screen.height);
+
+        var force = 0.25;
+        var maxSpeed = 7;
+        function gameLoop() {
+            if(player.x > 1600) {
+                player.x = -100;
+            }else if(player.x < -100){
+                player.x = 1600;
+            }
+            if(player.y > 900){
+                player.y = -100;
+            }else if(player.y < -100){
+                player.y = 900;
+            }
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    // User is signed in.
+                    var uid = user.uid;
+                    user.getToken().then(function(accessToken) {
+                       // person.speed = player.speed;
+                        person.x = player.x;
+                        person.y = player.y;
+                        //person.roateA = player.roateA;
+                        person.rotate = player.rotate;
+                        var ref = MyBase.ref("users/" + uid);
+                        ref.set(person);
+                        //users.push(person);*/
+                    });
+                } else {
+                    // User is signed out.
+                    console.log("signout")
+                }
+            }, function(error) {
+                console.log(error);
+            });
+            if(player.speed > 0 && player.up != 1){
+                player.speed-=0.25;
+            }
+            if(player.up == 1 && player.speed <= maxSpeed){
+                player.speed+= force;
+            }
+            if(player.speed < 1 && player.up == 1) {
+                player.speed=1;
+            }
+
+            player.x += player.speed*Math.cos((player.rotate-90)/(180/Math.PI));
+            player.y += player.speed*Math.sin((player.rotate-90)/(180/Math.PI));
+
+            if(player.roateA != 0){
+
+                if(player.roateA > -3 && player.right == 1) {
+                    player.roateA= -3;
+                }else if(player.roateA < 3 && player.left == 1){
+                    player.roateA=3;
+                }
+                if(player.roateA > 0){
+                    player.rotate += Math.log(player.roateA)*3.5;
+                    player.roateA -=0.5;
+                }else if (player.roateA < 0){
+                    player.rotate -= Math.log(-player.roateA)*3.5;
+                    player.roateA +=0.5;
+                }
+            }
+            if(player.left == 1) {
+                if(player.roateA >= -10){
+                    player.roateA-=1.5;
+
+                }
+            }
+            if(player.right == 1) {
+                if(player.roateA <= 10){
+                    player.roateA+=1.5;
+                }
+            }
+        }
+        setInterval(gameLoop, 20);
+
+
+    </script>
+
+</body>
+
+</html>

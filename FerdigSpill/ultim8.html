@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+
+            background: linear-gradient(black 40%, #2d1643);
+        }
+        /* -- Background div -- */
+        #background {
+            position: relative;
+            padding:0;
+            margin:0;
+            float: left;
+        }
+
+        @keyframes example {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="background"></div>
+    <div id="kek"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDZqawcZKUJa_iyXEw03eKAbZuMQSOGMEs",
+            authDomain: "testfirebase-44c5a.firebaseapp.com",
+            databaseURL: "https://testfirebase-44c5a.firebaseio.com",
+            storageBucket: "testfirebase-44c5a.appspot.com",
+            messagingSenderId: "477228321194"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script>
+        var MyBase = firebase.database();
+        var users = MyBase.ref("users");
+        var kek = document.getElementById("kek");
+        var profile = document.getElementById("profile");
+
+        function spawnship(snapshot) {
+            let user = snapshot.val();
+            let key = snapshot.key;
+            let bilde = user.bilde;
+            let xpos = user.x;
+            let ypos = user.y;
+
+
+            kek.innerHTML += `<div id="${key}" class="profile" style="transform: translate(${xpos}px, ${ypos}px); height: 100px; width: 100px; display: inline-block">
+<img src="${bilde}" style="border: 2px solid black"></div>`;
+        }
+
+        function flyttskip(snapshot) {
+            let user = snapshot.val();
+            let key = snapshot.key;
+            let left = user.left;
+            let right = user.right;
+            let up = user.up;
+            let x = user.x;
+            let y = user.y;
+            let rotate = user.rotate;
+            let roateA = user.roateA;
+
+            var element = document.getElementById(key);
+            element.style.transformOrigin = "center";
+            element.style.transform = `translate(${user.x}px,${user.y}px) rotate(${user.rotate}deg)`;
+
+        }
+
+
+        users.on("child_added", spawnship);
+
+        users.on("child_changed", flyttskip);
+
+
+        console.log(screen.height);
+        console.log(screen.width);
+    </script>
+    <script>
+
+        function createBackground(){
+            var height = document.documentElement.clientHeight;
+            var width = document.documentElement.clientWidth;
+
+            var background = document.getElementById("background");
+            background.style.height = height-10+"px";
+
+
+            for (var i = 0; i < 100; i++){
+
+                // Div inner
+                var divElement = document.createElement("div");
+                divElement.style.position = "absolute";
+                divElement.style.borderRadius = "20px";
+
+                var array = ["peachpuff", "white", "aliceblue", "floralwhite", "azure", "lightblue", "lightsteelblue"];
+                divElement.style.backgroundColor = array[Math.round((Math.random()*6))];
+
+                // Height & width
+                var rand = Math.random();
+                divElement.style.width = 2* rand + "px";
+                divElement.style.height = 2* rand + "px";
+
+                // Top and left
+                var rand2 = Math.random();
+                var rand3 = Math.random();
+
+                divElement.style.left = (width-50) * rand2 + "px";
+                divElement.style.top = (height-50) * rand3 + "px";
+
+                background.appendChild(divElement);
+
+                // Div outer
+                var divElement2 = document.createElement("div");
+                divElement2.style.position = "absolute";
+                divElement2.style.backgroundColor = "white";
+                divElement2.style.borderRadius = "20px";
+
+                // Height & width
+                divElement2.style.width = 2* rand + 2 + "px";
+                divElement2.style.height = 2* rand + 2 + "px";
+
+                // Top and left
+                divElement2.style.left = (width-50) * rand2 -1 + "px";
+                divElement2.style.top = (height-50) * rand3 -1 + "px";
+
+                // Animation
+                divElement2.style.animationDuration = "4s";
+                divElement2.style.animationName = "example";
+                divElement2.style.animationIterationCount = "infinite";
+                divElement2.style.animationDelay = Math.random()*10 + "s";
+
+                background.appendChild(divElement2);
+            }
+        }
+
+        createBackground();
+
+    </script>
+</body>
+</html>
